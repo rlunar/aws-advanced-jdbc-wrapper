@@ -52,6 +52,7 @@ dependencies {
     compileOnly("io.opentelemetry:opentelemetry-api:1.52.0")
     compileOnly("io.opentelemetry:opentelemetry-sdk:1.52.0")
     compileOnly("io.opentelemetry:opentelemetry-sdk-metrics:1.52.0")
+    compileOnly("org.apache.commons:commons-pool2:2.11.1")
     compileOnly("org.jsoup:jsoup:1.21.1")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib:2.1.21")
 
@@ -94,6 +95,7 @@ dependencies {
     testImplementation("io.opentelemetry:opentelemetry-sdk:1.52.0")
     testImplementation("io.opentelemetry:opentelemetry-sdk-metrics:1.52.0")
     testImplementation("io.opentelemetry:opentelemetry-exporter-otlp:1.52.0")
+    testImplementation("org.apache.commons:commons-pool2:2.11.1")
     testImplementation("org.jsoup:jsoup:1.21.1")
     testImplementation("de.vandermeer:asciitable:0.3.2")
     testImplementation("org.hibernate:hibernate-core:5.6.15.Final") // the latest version compatible with Java 8
