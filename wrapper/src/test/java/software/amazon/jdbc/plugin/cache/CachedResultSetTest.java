@@ -1,3 +1,19 @@
+/*
+ * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package software.amazon.jdbc.plugin.cache;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,8 +28,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import java.net.URL;
+import org.mockito.MockitoAnnotations;
 import java.net.MalformedURLException;
 
 import java.math.BigDecimal;
@@ -29,21 +45,91 @@ public class CachedResultSetTest {
   // Column values: label, name, typeName, type, displaySize, precision, tableName,
   // scale, schemaName, isAutoIncrement, isCaseSensitive, isCurrency, isDefinitelyWritable,
   // isNullable, isReadOnly, isSearchable, isSigned, isWritable
-  private static final Object [][] testColumnMetadata = {
-      {"fieldNull", "fieldNull", "String", Types.VARCHAR, 10, 2, "table", 1, "public", false, false, false, false, 1, true, true, false, false},
-      {"fieldInt", "fieldInt", "Integer", Types.INTEGER, 10, 2, "table", 1, "public", true, false, false, false, 0, false, true, true, true},
-      {"fieldString", "fieldString", "String", Types.VARCHAR, 10, 2, "table", 1, "public", false, false, false, false, 0, false, true, false, true},
-      {"fieldBoolean", "fieldBoolean", "Boolean", Types.BOOLEAN, 10, 2, "table", 1, "public", false, false, false, false, 0, false, true, false, true},
-      {"fieldByte", "fieldByte", "Byte", Types.TINYINT, 10, 2, "table", 1, "public", false, false, false, false, 1, true, true, false, false},
-      {"fieldShort", "fieldShort", "Short", Types.SMALLINT, 10, 2, "table", 1, "public", false, false, false, false, 1, true, true, false, false},
-      {"fieldLong", "fieldLong", "Long", Types.BIGINT, 10, 2, "table", 1, "public", false, false, false, false, 1, false, true, false, false},
-      {"fieldFloat", "fieldFloat", "Float", Types.REAL, 10, 2, "table", 1, "public", false, false, false, false, 0, true, true, false, false},
-      {"fieldDouble", "fieldDouble", "Double", Types.DOUBLE, 10, 2, "table", 1, "public", false, false, false, false, 1, true, true, false, false},
-      {"fieldBigDecimal", "fieldBigDecimal", "BigDecimal", Types.DECIMAL, 10, 2, "table", 1, "public", false, false, false, false, 0, true, true, false, false},
-      {"fieldDate", "fieldDate", "Date", Types.DATE, 10, 2, "table", 1, "public", false, false, false, false, 1, true, true, false, false},
-      {"fieldTime", "fieldTime", "Time", Types.TIME, 10, 2, "table", 1, "public", false, false, false, false, 1, true, true, false, false},
-      {"fieldDateTime", "fieldDateTime", "Timestamp", Types.TIMESTAMP, 10, 2, "table", 1, "public", false, false, false, false, 0, true, true, false, false},
-      {"fieldSqlXml", "fieldSqlXml", "SqlXml", Types.SQLXML, 100, 1, "table", 1, "public", false, false, false, false, 0, true, true, false, false}
+  private static final Object[][] testColumnMetadata = {
+      {
+          "fieldNull", "fieldNull", "String", Types.VARCHAR,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          1, true, true, false, false
+      },
+      {
+          "fieldInt", "fieldInt", "Integer", Types.INTEGER,
+          10, 2, "table", 1, "public",
+          true, false, false, false,
+          0, false, true, true, true
+      },
+      {
+          "fieldString", "fieldString", "String", Types.VARCHAR,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          0, false, true, false, true
+      },
+      {
+          "fieldBoolean", "fieldBoolean", "Boolean", Types.BOOLEAN,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          0, false, true, false, true
+      },
+      {
+          "fieldByte", "fieldByte", "Byte", Types.TINYINT,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          1, true, true, false, false
+      },
+      {
+          "fieldShort", "fieldShort", "Short", Types.SMALLINT,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          1, true, true, false, false
+      },
+      {
+          "fieldLong", "fieldLong", "Long", Types.BIGINT,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          1, false, true, false, false
+      },
+      {
+          "fieldFloat", "fieldFloat", "Float", Types.REAL,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          0, true, true, false, false
+      },
+      {
+          "fieldDouble", "fieldDouble", "Double", Types.DOUBLE,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          1, true, true, false, false
+      },
+      {
+          "fieldBigDecimal", "fieldBigDecimal", "BigDecimal", Types.DECIMAL,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          0, true, true, false, false
+      },
+      {
+          "fieldDate", "fieldDate", "Date", Types.DATE,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          1, true, true, false, false
+      },
+      {
+          "fieldTime", "fieldTime", "Time", Types.TIME,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          1, true, true, false, false
+      },
+      {
+          "fieldDateTime", "fieldDateTime", "Timestamp", Types.TIMESTAMP,
+          10, 2, "table", 1, "public",
+          false, false, false, false,
+          0, true, true, false, false
+      },
+      {
+          "fieldSqlXml", "fieldSqlXml", "SqlXml", Types.SQLXML,
+          100, 1, "table", 1, "public",
+          false, false, false, false,
+          0, true, true, false, false
+      }
   };
 
   private static final Object [][] testColumnValues = {
@@ -112,26 +198,26 @@ public class CachedResultSetTest {
   private void verifyDefaultMetadata(ResultSet rs) throws SQLException {
     ResultSetMetaData md = rs.getMetaData();
     for (int i = 0; i < md.getColumnCount(); i++) {
-      assertEquals("", md.getCatalogName(i+1));
-      assertEquals("MyClass" + i, md.getColumnClassName(i+1));
-      assertEquals(testColumnMetadata[i][0], md.getColumnLabel(i+1));
-      assertEquals(testColumnMetadata[i][1], md.getColumnName(i+1));
-      assertEquals(testColumnMetadata[i][2], md.getColumnTypeName(i+1));
-      assertEquals(testColumnMetadata[i][3], md.getColumnType(i+1));
-      assertEquals(testColumnMetadata[i][4], md.getColumnDisplaySize(i+1));
-      assertEquals(testColumnMetadata[i][5], md.getPrecision(i+1));
-      assertEquals(testColumnMetadata[i][6], md.getTableName(i+1));
-      assertEquals(testColumnMetadata[i][7], md.getScale(i+1));
-      assertEquals(testColumnMetadata[i][8], md.getSchemaName(i+1));
-      assertEquals(testColumnMetadata[i][9], md.isAutoIncrement(i+1));
-      assertEquals(testColumnMetadata[i][10], md.isCaseSensitive(i+1));
-      assertEquals(testColumnMetadata[i][11], md.isCurrency(i+1));
-      assertEquals(testColumnMetadata[i][12], md.isDefinitelyWritable(i+1));
-      assertEquals(testColumnMetadata[i][13], md.isNullable(i+1));
-      assertEquals(testColumnMetadata[i][14], md.isReadOnly(i+1));
-      assertEquals(testColumnMetadata[i][15], md.isSearchable(i+1));
-      assertEquals(testColumnMetadata[i][16], md.isSigned(i+1));
-      assertEquals(testColumnMetadata[i][17], md.isWritable(i+1));
+      assertEquals("", md.getCatalogName(i + 1));
+      assertEquals("MyClass" + i, md.getColumnClassName(i + 1));
+      assertEquals(testColumnMetadata[i][0], md.getColumnLabel(i + 1));
+      assertEquals(testColumnMetadata[i][1], md.getColumnName(i + 1));
+      assertEquals(testColumnMetadata[i][2], md.getColumnTypeName(i + 1));
+      assertEquals(testColumnMetadata[i][3], md.getColumnType(i + 1));
+      assertEquals(testColumnMetadata[i][4], md.getColumnDisplaySize(i + 1));
+      assertEquals(testColumnMetadata[i][5], md.getPrecision(i + 1));
+      assertEquals(testColumnMetadata[i][6], md.getTableName(i + 1));
+      assertEquals(testColumnMetadata[i][7], md.getScale(i + 1));
+      assertEquals(testColumnMetadata[i][8], md.getSchemaName(i + 1));
+      assertEquals(testColumnMetadata[i][9], md.isAutoIncrement(i + 1));
+      assertEquals(testColumnMetadata[i][10], md.isCaseSensitive(i + 1));
+      assertEquals(testColumnMetadata[i][11], md.isCurrency(i + 1));
+      assertEquals(testColumnMetadata[i][12], md.isDefinitelyWritable(i + 1));
+      assertEquals(testColumnMetadata[i][13], md.isNullable(i + 1));
+      assertEquals(testColumnMetadata[i][14], md.isReadOnly(i + 1));
+      assertEquals(testColumnMetadata[i][15], md.isSearchable(i + 1));
+      assertEquals(testColumnMetadata[i][16], md.isSigned(i + 1));
+      assertEquals(testColumnMetadata[i][17], md.isWritable(i + 1));
     }
   }
 

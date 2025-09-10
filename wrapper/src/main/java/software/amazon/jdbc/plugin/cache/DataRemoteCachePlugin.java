@@ -152,9 +152,10 @@ public class DataRemoteCachePlugin extends AbstractConnectionPlugin {
   }
 
   /**
-   * Determine the TTL based on an input query
+   * Determine the TTL based on an input query.
    * @param queryHint string. e.g. "CACHE_PARAM(ttl=100s, key=custom)"
    * @return TTL in seconds to cache the query.
+   *
    *         null if the query is not cacheable.
    */
   protected Integer getTtlForQuery(String queryHint) {
@@ -198,7 +199,7 @@ public class DataRemoteCachePlugin extends AbstractConnectionPlugin {
           LOGGER.warning("TTL must end with 's': " + value);
           incrCounter(malformedHintCounter);
           return null;
-        } else{
+        } else {
           // Parse TTL value (e.g., "300s")
           try {
             ttlValue = Integer.parseInt(value.substring(0, value.length() - 1));

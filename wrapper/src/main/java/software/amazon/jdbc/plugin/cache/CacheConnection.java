@@ -1,3 +1,19 @@
+/*
+ * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License").
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package software.amazon.jdbc.plugin.cache;
 
 import io.lettuce.core.RedisClient;
@@ -8,10 +24,10 @@ import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 import io.lettuce.core.codec.ByteArrayCodec;
 import io.lettuce.core.resource.ClientResources;
+import java.security.NoSuchAlgorithmException;
 import software.amazon.jdbc.AwsWrapperProperty;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantLock;
@@ -138,7 +154,8 @@ public class CacheConnection {
               }
               return connection;
             }
-            public PooledObject<StatefulRedisConnection<byte[], byte[]>> wrap(StatefulRedisConnection<byte[], byte[]> connection) {
+            public PooledObject<StatefulRedisConnection<byte[], byte[]>> wrap(
+                StatefulRedisConnection<byte[], byte[]> connection) {
               return new DefaultPooledObject<>(connection);
             }
           }, poolConfig);
@@ -244,16 +261,17 @@ public class CacheConnection {
     }
   }
 
-  private void returnConnectionBackToPool(StatefulRedisConnection <byte[], byte[]> connection, boolean isConnectionBroken, boolean isRead) {
+  private void returnConnectionBackToPool(
+      StatefulRedisConnection <byte[], byte[]> connection, boolean isConnectionBroken, boolean isRead) {
     GenericObjectPool<StatefulRedisConnection<byte[], byte[]>> pool = isRead ? readConnectionPool : writeConnectionPool;
     if (isConnectionBroken) {
-        try {
-          pool.invalidateObject(connection);
-        } catch (Exception e) {
-          throw new RuntimeException("Could not invalidate connection for the pool", e);
-        }
+      try {
+        pool.invalidateObject(connection);
+      } catch (Exception e) {
+        throw new RuntimeException("Could not invalidate connection for the pool", e);
+      }
     } else {
-        pool.returnObject(connection);
+      pool.returnObject(connection);
     }
   }
 
